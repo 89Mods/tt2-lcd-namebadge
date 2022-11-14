@@ -27,9 +27,9 @@ documentation:
   inputs:               # a description of what the inputs do
     - CLK
     - RST
-    - NC
-    - NC
-    - NC
+    - EF0
+    - EF1
+    - EF2
     - NC
     - NC
     - NC
