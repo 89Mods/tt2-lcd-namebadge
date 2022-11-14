@@ -1,0 +1,17 @@
+.DS_Store
+.idea
+.vscode
+*.vcd
+runs/
+openlane/
+pdk/
+caravel_user_project/
+src/tt2_tholin_namebadge.v
+
+__pycache__/
+sim_build/
+gds_out/
+
+# Unit test results
+*.xml
+*.vcd
