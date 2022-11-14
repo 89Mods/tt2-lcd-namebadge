@@ -39,6 +39,9 @@ async def test_lcd(dut):
 	await test_lcd_data(dut, 0, 0b0000)
 	await test_lcd_data(dut, 0, 0b0001)
 	
+	assert dut.LED0.value == 0
+	assert dut.LED1.value == 0
+	
 	await ClockCycles(dut.CLK, 4)
 	await test_lcd_string(dut, "Hi, I'm Tholin :3")
 	for i in range(0, 11):
@@ -55,6 +58,10 @@ async def test_lcd(dut):
 	await test_lcd_data(dut, 0, 0b0000)
 	
 	await test_lcd_string(dut, "Avali")
+	
+	assert dut.LED0.value == 1
+	assert dut.LED1.value == 0
+	
 	for i in range(0, 16):
 		await test_lcd_data(dut, 0, 0b1001)
 		await test_lcd_data(dut, 0, 0b0100)
@@ -76,10 +83,27 @@ async def test_lcd(dut):
 	await test_lcd_data(dut, 0, 0b1111)
 	await test_lcd_data(dut, 0, 0b0000)
 	await test_lcd_data(dut, 0, 0b0001)
+	
 	await test_lcd_string(dut, " Hi, I'm Tholin :3")
+	
+	assert dut.LED0.value == 1
+	assert dut.LED1.value == 1
+	
 	for i in range(0, 11):
 		await test_lcd_data(dut, 0, 0b1101)
 		await test_lcd_data(dut, 0, 0b0100)
 	await test_lcd_string(dut, "www.tholin.dev")
 	for i in range(0, 164):
 		await test_lcd_data(dut, 0, 0b0011)
+		
+	await test_lcd_data(dut, 0, 0b0011)
+	await test_lcd_data(dut, 0, 0b0010)
+	await test_lcd_data(dut, 0, 0b0000)
+	await test_lcd_data(dut, 0, 0b1111)
+	await test_lcd_data(dut, 0, 0b1100)
+	await test_lcd_data(dut, 0, 0b0000)
+	
+	await test_lcd_string(dut, "Avali")
+
+	assert dut.LED0.value == 0
+	assert dut.LED1.value == 0

@@ -1,5 +1,5 @@
 
-module wokwi(input CLK, input RST, output RS, output reg E, output D4, output D5, output D6, output D7);
+module wokwi(input CLK, input RST, output RS, output reg E, output D4, output D5, output D6, output D7, output LED0, output LED1);
     wire [6:0] rom_addr;
     reg[6:0] s_ROM;
         always @(*)
@@ -91,14 +91,19 @@ module wokwi(input CLK, input RST, output RS, output reg E, output D4, output D5
     reg [4:0] data;
     reg round = 0;
     wire [1:0] res;
-
+    reg [1:0] leds;
+    
+    assign {LED1, LED0} = leds;
     assign {RS, D7, D6, D5, D4} = data;
     
     always @(posedge CLK) begin
         if(RST) begin
             toggle <= 1'b0;
-            seq = 0;
+            seq <= 0;
             str_seq <= 75;
+            leds = 2'b0;
+            E <= 1'b0;
+            data <= 5'b0;
         end
         toggle <= !toggle;
         if (toggle) begin
@@ -143,6 +148,10 @@ module wokwi(input CLK, input RST, output RS, output reg E, output D4, output D5
                 end
                 if (seq == 255) begin
                     round <= !round;
+                    leds[1] <= round;
+                    if (!round) begin
+                        leds[0] <= !leds[0];
+                    end
                 end
             end else
                 if (round) begin
