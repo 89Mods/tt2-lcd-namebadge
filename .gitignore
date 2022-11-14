@@ -2,6 +2,7 @@
 .idea
 .vscode
 *.vcd
+*.class
 runs/
 openlane/
 pdk/

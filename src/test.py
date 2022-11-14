@@ -25,9 +25,6 @@ async def test_lcd(dut):
 	dut._log.info("start")
 	clock = Clock(dut.CLK, 1, units="ms")
 	cocotb.start_soon(clock.start())
-	dut.EF0.value = 0
-	dut.EF1.value = 0
-	dut.EF2.value = 0
 	
 	dut._log.info("reset")
 	dut.RST.value = 1
@@ -48,13 +45,7 @@ async def test_lcd(dut):
 		await test_lcd_data(dut, 0, 0b1101)
 		await test_lcd_data(dut, 0, 0b0100)
 	await test_lcd_string(dut, "www.tholin.dev")
-	for i in range(0, 3):
-		await test_lcd_data(dut, 1, 2)
-		await test_lcd_data(dut, 1, 0)
-	for i in range(0, 2):
-		await test_lcd_data(dut, 1, 3)
-		await test_lcd_data(dut, 1, 0)
-	for i in range(0, 154):
+	for i in range(0, 164):
 		await test_lcd_data(dut, 0, 0b0011)
 	await test_lcd_data(dut, 0, 0b0011)
 	await test_lcd_data(dut, 0, 0b0010)
@@ -79,9 +70,6 @@ async def test_lcd(dut):
 	for i in range(0, 66):
 		await test_lcd_data(dut, 0, 0b0011)
 	
-	dut.EF0.value = 1
-	dut.EF1.value = 1
-	dut.EF2.value = 0
 	await test_lcd_data(dut, 0, 0b0011)
 	await test_lcd_data(dut, 0, 0b0010)
 	await test_lcd_data(dut, 0, 0b0000)
@@ -93,10 +81,5 @@ async def test_lcd(dut):
 		await test_lcd_data(dut, 0, 0b1101)
 		await test_lcd_data(dut, 0, 0b0100)
 	await test_lcd_string(dut, "www.tholin.dev")
-	for i in range(0, 3):
-		await test_lcd_data(dut, 1, 2)
-		await test_lcd_data(dut, 1, 0)
-	await test_lcd_data(dut, 1, 3)
-	await test_lcd_data(dut, 1, 1)
-	await test_lcd_data(dut, 1, 3)
-	await test_lcd_data(dut, 1, 0)
+	for i in range(0, 164):
+		await test_lcd_data(dut, 0, 0b0011)

@@ -1,5 +1,5 @@
 
-module wokwi(input CLK, input RST, input EF0, input EF1, input EF2, output RS, output reg E, output D4, output D5, output D6, output D7);
+module wokwi(input CLK, input RST, output RS, output reg E, output D4, output D5, output D6, output D7);
     wire [6:0] rom_addr;
     reg[6:0] s_ROM;
         always @(*)
@@ -81,7 +81,6 @@ module wokwi(input CLK, input RST, input EF0, input EF1, input EF2, output RS, o
             73 : s_ROM = 7'h69;
             74 : s_ROM = 7'h48;
             75 : s_ROM = 7'h20;
-            default : s_ROM = 0;
         endcase
     end
     assign rom_addr = str_seq;
@@ -92,7 +91,6 @@ module wokwi(input CLK, input RST, input EF0, input EF1, input EF2, output RS, o
     reg [4:0] data;
     reg round = 0;
     wire [1:0] res;
-    assign res = EF0 + EF1 + EF2;
 
     assign {RS, D7, D6, D5, D4} = data;
     
@@ -139,10 +137,6 @@ module wokwi(input CLK, input RST, input EF0, input EF1, input EF2, output RS, o
                     end else if (seq <= 91) begin
                         data <= (1 << 4) | ((seq & 1) ? s_ROM[3:0] : s_ROM[6:4]);
                         str_seq <= str_seq - (seq & 1);
-                    end else if(seq <= 97) begin
-                        data <= (1 << 4) | ((seq & 1) ? 0 : 2);
-                    end else if(seq <= 101) begin
-                        data <= (1 << 4) | ((seq & 1) ? res[seq[1]] : 3);
                     end else begin
                         data <= 5'b00011;
                     end
