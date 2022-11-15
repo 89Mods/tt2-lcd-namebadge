@@ -7,8 +7,7 @@ module tb (
 	output RS,
 	output E,
 	output [3:0] dout,
-	output LED0,
-	output LED1
+	output LED
 	);
 	
 	initial begin
@@ -22,8 +21,7 @@ module tb (
 	assign RS = outputs[0];
 	assign E = outputs[1];
 	assign dout = outputs[5:2];
-	assign LED0 = outputs[6];
-	assign LED1 = outputs[7];
+	assign LED = outputs[6];
 	
 	tt2_tholin_namebadge tt2_tholin_namebadge (
 		`ifdef GL_TEST

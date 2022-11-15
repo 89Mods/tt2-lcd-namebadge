@@ -1,5 +1,5 @@
 
-module wokwi(input CLK, input RST, output RS, output reg E, output D4, output D5, output D6, output D7, output LED0, output LED1);
+module lcd(input CLK, input RST, output RS, output reg E, output D4, output D5, output D6, output D7, output LED);
     wire [6:0] rom_addr;
     reg[6:0] s_ROM;
         always @(*)
@@ -85,27 +85,17 @@ module wokwi(input CLK, input RST, output RS, output reg E, output D4, output D5
     end
     assign rom_addr = str_seq;
 
-    reg toggle = 1'b0;
-    reg [7:0] seq = 8'h0;
-    reg [6:0] str_seq = 75;
+    reg toggle;
+    reg [7:0] seq;
+    reg [6:0] str_seq;
     reg [4:0] data;
-    reg round = 0;
-    wire [1:0] res;
-    reg [1:0] leds;
+    reg round;
     
-    assign {LED1, LED0} = leds;
+    assign LED = str_seq[2];
     assign {RS, D7, D6, D5, D4} = data;
-    
+
     always @(posedge CLK) begin
-        if(RST) begin
-            toggle <= 1'b0;
-            seq <= 0;
-            str_seq <= 75;
-            leds = 2'b0;
-            E <= 1'b0;
-            data <= 5'b0;
-        end
-        toggle <= !toggle;
+        toggle <= !toggle & !RST;
         if (toggle) begin
             seq <= seq + 1'b1;
             E <= 1'b0;
@@ -114,18 +104,24 @@ module wokwi(input CLK, input RST, output RS, output reg E, output D4, output D5
                     if (seq <= 15) begin
                         data <= (1 << 4) | ((seq & 1) ? s_ROM[3:0] : s_ROM[6:4]);
                         str_seq <= str_seq - (seq & 1);
+                    end else if(seq <= 43) begin
+                        data <= 5'b00000;
                     end else if(seq <= 47) begin
-                        data <= (seq & 1) ? 5'b00100 : 5'b01001;
+                        data <= (seq & 1) ? 5'b01000 : 5'b01001;
                     end else if(seq <= 71) begin
                         data <= (1 << 4) | ((seq & 1) ? s_ROM[3:0] : s_ROM[6:4]);
                         str_seq <= str_seq - (seq & 1);
+                    end else if(seq <= 99) begin
+                        data <= 5'b00000;
                     end else if(seq <= 103) begin
-                        data <= (seq & 1) ? 5'b00000 : 5'b01100;
+                        data <= (seq & 1) ? 5'b00100 : 5'b01100;
                     end else if(seq <= 127) begin
                         data <= (1 << 4) | ((seq & 1) ? s_ROM[3:0] : s_ROM[6:4]);
                         str_seq <= str_seq - (seq & 1);
+                    end else if(seq <= 155) begin
+                        data <= 5'b00000;
                     end else if(seq <= 159) begin
-                        data <= (seq & 1) ? 5'b00100 : 5'b01001;
+                        data <= (seq & 1) ? 5'b00110 : 5'b01001;
                     end else if(seq <= 189) begin
                         data <= (1 << 4) | ((seq & 1) ? s_ROM[3:0] : s_ROM[6:4]);
                         str_seq <= str_seq - (seq & 1);
@@ -148,10 +144,6 @@ module wokwi(input CLK, input RST, output RS, output reg E, output D4, output D5
                 end
                 if (seq == 255) begin
                     round <= !round;
-                    leds[1] <= round;
-                    if (!round) begin
-                        leds[0] <= !leds[0];
-                    end
                 end
             end else
                 if (round) begin
@@ -185,7 +177,13 @@ module wokwi(input CLK, input RST, output RS, output reg E, output D4, output D5
                 end
             end
         else begin
-            E <= 1'b1;
+            E <= !RST;
+            
+            if (RST) begin
+                round <= 0;
+                seq <= 0;
+                str_seq <= 75;
+            end
         end
     end
 endmodule

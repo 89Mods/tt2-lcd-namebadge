@@ -4,6 +4,7 @@ TOPLEVEL_LANG ?= verilog
 ifneq ($(GATES),yes)
 # normal simulation
 VERILOG_SOURCES += $(PWD)/tb.v $(PWD)/toplevel.v $(PWD)/lcd.v
+COMPILE_ARGS += -DTESTING
 else
 # gate level simulation requires some extra setup
 COMPILE_ARGS += -DGL_TEST
