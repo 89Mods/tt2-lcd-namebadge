@@ -14,6 +14,7 @@ project:
 #
 # This info will be automatically collected and used to make a datasheet for the chip.
 documentation:
+  discord_username: "Tholin#7559"
   author:       "Tholin"      # Your name
   title:        "TinyTapeout 2 LCD Nametag"      # Project title
   description:  "Echoes out a predefined text onto a 20x4 character LCD."      # Short description of what your project does
