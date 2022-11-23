@@ -56,7 +56,7 @@ async def test_lcd(dut):
 		await test_lcd_data(dut, 0, 0b0000)
 		await test_lcd_data(dut, 0, 0b1111)
 		await test_lcd_data(dut, 0, 0b1100)
-		await test_lcd_data(dut, 0, 0b0000)
+		await test_lcd_data(dut, 0, 0b0111)
 		
 		await test_lcd_string(dut, "Avali")
 		assert dut.LED.value == 1
@@ -81,6 +81,21 @@ async def test_lcd(dut):
 		await test_lcd_string(dut, "VRC World Maker")
 		assert dut.LED.value == 1
 		for i in range(0, 66):
+			await test_lcd_data(dut, 0, 0b0011)
+
+		await test_lcd_data(dut, 0, 0b0011)
+		await test_lcd_data(dut, 0, 0b0010)
+		await test_lcd_data(dut, 0, 0b0000)
+		await test_lcd_data(dut, 0, 0b1111)
+		await test_lcd_data(dut, 0, 0b0000)
+		await test_lcd_data(dut, 0, 0b0001)
+
+		await test_lcd_string(dut, "Big thanks to Matt  ")
+		for i in range(0, 2):
+			await test_lcd_data(dut, 0, 0b01100)
+			await test_lcd_data(dut, 0, 0b0000)
+		await test_lcd_string(dut, "Venn and TinyTapeout<3 <3 <3")
+		for i in range(0, 89):
 			await test_lcd_data(dut, 0, 0b0011)
 		
 		await test_lcd_data(dut, 0, 0b0011)
@@ -105,7 +120,7 @@ async def test_lcd(dut):
 		await test_lcd_data(dut, 0, 0b0000)
 		await test_lcd_data(dut, 0, 0b1111)
 		await test_lcd_data(dut, 0, 0b1100)
-		await test_lcd_data(dut, 0, 0b0000)
+		await test_lcd_data(dut, 0, 0b0111)
 		
 		await test_lcd_string(dut, "Avali")
 		for i in range(0, 28):
@@ -128,4 +143,19 @@ async def test_lcd(dut):
 			await test_lcd_data(dut, 0, 0b0110)
 		await test_lcd_string(dut, "VRC World Maker")
 		for i in range(0, 66):
+			await test_lcd_data(dut, 0, 0b0011)
+
+		await test_lcd_data(dut, 0, 0b0011)
+		await test_lcd_data(dut, 0, 0b0010)
+		await test_lcd_data(dut, 0, 0b0000)
+		await test_lcd_data(dut, 0, 0b1111)
+		await test_lcd_data(dut, 0, 0b0000)
+		await test_lcd_data(dut, 0, 0b0001)
+
+		await test_lcd_string(dut, "Big thanks to Matt  ")
+		for i in range(0, 2):
+			await test_lcd_data(dut, 0, 0b01100)
+			await test_lcd_data(dut, 0, 0b0000)
+		await test_lcd_string(dut, "Venn and TinyTapeout<3 <3 <3")
+		for i in range(0, 89):
 			await test_lcd_data(dut, 0, 0b0011)
