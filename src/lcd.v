@@ -1,5 +1,5 @@
 
-module lcd(input CLK, input RST, input EF0, input EF1, output RS, output reg E, output D4, output D5, output D6, output D7, output LED0, output LED1);
+module lcd(input CLK, input RST, input EF0, input EF1, input EF2, output RS, output reg E, output D4, output D5, output D6, output D7, output LED0, output LED1);
     wire [6:0] rom_addr;
     reg[6:0] s_ROM;
         always @(*)
@@ -142,7 +142,7 @@ module lcd(input CLK, input RST, input EF0, input EF1, output RS, output reg E, 
     assign LED0 = str_seq[2];
     assign LED1 = data[0];
     assign {RS, D7, D6, D5, D4} = data;
-    wire [1:0] num_state = EF0 + EF1;
+    wire [1:0] num_state = EF0 + EF1 + EF2;
 
     always @(posedge CLK) begin
         toggle <= !toggle & !RST;

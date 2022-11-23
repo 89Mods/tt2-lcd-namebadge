@@ -8,6 +8,7 @@ module tt2_tholin_namebadge (
 	wire RST = io_in[1];
 	wire EF0 = io_in[2];
 	wire EF1 = io_in[3];
+	wire EF2 = io_in[4];
 	wire RS;
 	wire E;
 	wire D4;
@@ -30,6 +31,7 @@ module tt2_tholin_namebadge (
 		.RST(RST),
 		.EF0(EF0),
 		.EF1(EF1),
+		.EF2(EF2),
 		.RS(RS),
 		.E(E),
 		.D4(D4),
