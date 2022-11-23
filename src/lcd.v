@@ -1,5 +1,5 @@
 
-module lcd(input CLK, input RST, output RS, output reg E, output D4, output D5, output D6, output D7, output LED);
+module lcd(input CLK, input RST, input EF0, input EF1, output RS, output reg E, output D4, output D5, output D6, output D7, output LED0, output LED1);
     wire [6:0] rom_addr;
     reg[6:0] s_ROM;
         always @(*)
@@ -139,8 +139,10 @@ module lcd(input CLK, input RST, output RS, output reg E, output D4, output D5, 
     reg [4:0] data;
     reg [1:0] round;
 
-    assign LED = str_seq[2];
+    assign LED0 = str_seq[2];
+    assign LED1 = data[0];
     assign {RS, D7, D6, D5, D4} = data;
+    wire [1:0] num_state = EF0 + EF1;
 
     always @(posedge CLK) begin
         toggle <= !toggle & !RST;
@@ -200,6 +202,10 @@ module lcd(input CLK, input RST, output RS, output reg E, output D4, output D5, 
                     end else if (seq <= 91) begin
                         data <= (1 << 4) | ((seq & 1) ? s_ROM[3:0] : s_ROM[6:4]);
                         str_seq <= str_seq - (seq & 1);
+                    end else if (seq <= 97) begin
+                        data <= (1 << 4) | ((seq & 1) ? 0 : 2);
+                    end else if (seq <= 101) begin
+                        data <= (1 << 4) | ((seq & 1) ? ( (seq & 2) ? num_state[0] : num_state[1] ) : 3);
                     end else begin
                         data <= 5'b00011;
                     end
@@ -246,6 +252,7 @@ module lcd(input CLK, input RST, output RS, output reg E, output D4, output D5, 
                 round <= 0;
                 seq <= 0;
                 str_seq <= 123;
+                data <= 0;
             end
         end
     end

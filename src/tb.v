@@ -4,10 +4,13 @@
 module tb (
 	input CLK,
 	input RST,
+	input EF0,
+	input EF1,
 	output RS,
 	output E,
 	output [3:0] dout,
-	output LED
+	output LED0,
+	output LED1
 	);
 	
 	initial begin
@@ -16,12 +19,13 @@ module tb (
 		#1;
 	end
 	
-	wire [7:0] inputs = {RST, CLK};
+	wire [7:0] inputs = {EF1, EF0, RST, CLK};
 	wire [7:0] outputs;
 	assign RS = outputs[0];
 	assign E = outputs[1];
 	assign dout = outputs[5:2];
-	assign LED = outputs[6];
+	assign LED0 = outputs[6];
+	assign LED1 = outputs[7];
 	
 	tt2_tholin_namebadge tt2_tholin_namebadge (
 		`ifdef GL_TEST
