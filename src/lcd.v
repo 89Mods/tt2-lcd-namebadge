@@ -138,13 +138,15 @@ module lcd(input CLK, input RST, input EF0, input EF1, input EF2, output RS, out
     reg [6:0] str_seq;
     reg [4:0] data;
     reg [1:0] round;
+    reg [1:0] num_state;
 
     assign LED0 = str_seq[2];
     assign LED1 = data[0];
     assign {RS, D7, D6, D5, D4} = data;
-    wire [1:0] num_state = EF0 + EF1 + EF2;
+    //wire [1:0] num_state = (EF0 + EF1) | EF2;
 
     always @(posedge CLK) begin
+        num_state <= EF0 + EF1 + EF2;
         toggle <= !toggle & !RST;
         if (toggle) begin
             seq <= seq + 1'b1;
