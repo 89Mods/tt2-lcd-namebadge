@@ -129,6 +129,7 @@ module lcd(input CLK, input RST, input EF0, input EF1, input EF2, output RS, out
             121 : s_ROM = 7'h69;
             122 : s_ROM = 7'h48;
             123 : s_ROM = 7'h20;
+            default : s_ROM = 7'h3F;
         endcase
     end
     assign rom_addr = str_seq;
